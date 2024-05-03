@@ -25,9 +25,11 @@ export default class Palette extends Component {
         <ColourBox
           background={colour[this.state.colourFormat]}
           name={colour.name}
+          key={colour.id}
         />
       )
     );
+
     return (
       <div className="Palette">
         <Navbar
@@ -36,6 +38,10 @@ export default class Palette extends Component {
           changeColourFormat={this.changeColourFormat}
         />
         <div className="Palette-colours">{colourBoxes}</div>
+        <footer className="Palette-footer">
+          {this.props.palette.paletteName}
+          <span className="emoji">{this.props.palette.emoji}</span>
+        </footer>
       </div>
     );
   }
