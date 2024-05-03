@@ -1,9 +1,8 @@
 import { Component } from "react";
 import ColourBox from "./ColourBox";
-import Slider from "rc-slider";
-import "rc-slider/assets/index.css";
 
 import "./Palette.css";
+import Navbar from "./Navbar";
 
 export default class Palette extends Component {
   constructor(props) {
@@ -16,21 +15,14 @@ export default class Palette extends Component {
     console.log(level);
     this.setState({ level });
   }
+
   render() {
     const colourBoxes = this.props.palette.colours[this.state.level].map(
       (colour) => <ColourBox background={colour.hex} name={colour.name} />
     );
     return (
       <div className="Palette">
-        <div className="slider">
-          <Slider
-            defaultValue={this.state.level}
-            min={100}
-            max={900}
-            step={100}
-            onChange={this.changeLevel}
-          />
-        </div>
+        <Navbar changeLevel={this.changeLevel} level={this.state.level} />
         <div className="Palette-colours">{colourBoxes}</div>
       </div>
     );
