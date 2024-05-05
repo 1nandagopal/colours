@@ -3,6 +3,7 @@ import ColourBox from "./ColourBox";
 
 import "./Palette.css";
 import Navbar from "./Navbar";
+import PaletteFooter from "./PaletteFooter";
 
 export default class Palette extends Component {
   constructor(props) {
@@ -41,10 +42,10 @@ export default class Palette extends Component {
           changeColourFormat={this.changeColourFormat}
         />
         <div className="Palette-colours">{colourBoxes}</div>
-        <footer className="Palette-footer">
-          {this.props.palette.paletteName}
-          <span className="emoji">{this.props.palette.emoji}</span>
-        </footer>
+        <PaletteFooter
+          paletteName={this.props.palette.paletteName}
+          emoji={this.props.palette.emoji}
+        />
       </div>
     );
   }
