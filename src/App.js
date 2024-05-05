@@ -15,7 +15,9 @@ export default class App extends Component {
         <Route
           exact
           path="/"
-          render={() => <PaletteList palettes={SeedColours} />}
+          render={(routeProps) => (
+            <PaletteList palettes={SeedColours} {...routeProps} />
+          )}
         />
         <Route
           exact
