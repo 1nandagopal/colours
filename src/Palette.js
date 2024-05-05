@@ -19,12 +19,14 @@ export default class Palette extends Component {
   changeColourFormat(newFormat) {
     this.setState({ colourFormat: newFormat });
   }
+
   render() {
     const colourBoxes = this.props.palette.colours[this.state.level].map(
       (colour) => (
         <ColourBox
           background={colour[this.state.colourFormat]}
           name={colour.name}
+          moreUrl={`/palette/${this.props.palette.id}/${colour.id}`}
           key={colour.id}
         />
       )
