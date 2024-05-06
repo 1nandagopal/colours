@@ -33,7 +33,7 @@ class SingleColourPalette extends Component {
         name={colour.name}
         background={colour[this.state.colourFormat]}
         key={colour.name}
-        showLink={false}
+        showingFullPalette={false}
       />
     ));
     console.log(this.shades);
