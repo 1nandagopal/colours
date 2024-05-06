@@ -1,11 +1,34 @@
 import { Component } from "react";
 import ColourBox from "./ColourBox";
+import { withStyles } from "@mui/styles";
 
-import "./Palette.css";
 import Navbar from "./Navbar";
 import PaletteFooter from "./PaletteFooter";
 
-export default class Palette extends Component {
+const styles = {
+  Palette: {
+    height: "100vh",
+    display: "flex",
+    flexDirection: "column",
+  },
+  colours: {
+    height: "90%",
+  },
+  // [sizes.down("lg")]: {
+  //   width: "25%",
+  //   height: "33.3333%"
+  // },
+  // [sizes.down("md")]: {
+  //   width: "50%",
+  //   height: "20%"
+  // },
+  // [sizes.down("xs")]: {
+  //   width: "100%",
+  //   height: "10%"
+  // }
+};
+
+class Palette extends Component {
   constructor(props) {
     super(props);
     this.state = { level: 500, colourFormat: "hex" };
@@ -22,31 +45,32 @@ export default class Palette extends Component {
   }
 
   render() {
-    const colourBoxes = this.props.palette.colours[this.state.level].map(
-      (colour) => (
-        <ColourBox
-          background={colour[this.state.colourFormat]}
-          name={colour.name}
-          moreUrl={`/palette/${this.props.palette.id}/${colour.id}`}
-          showingFullPalette
-          key={colour.id}
-        />
-      )
-    );
+    const { palette, classes } = this.props;
+    const colourBoxes = palette.colours[this.state.level].map((colour) => (
+      <ColourBox
+        background={colour[this.state.colourFormat]}
+        name={colour.name}
+        moreUrl={`/palette/${palette.id}/${colour.id}`}
+        showingFullPalette
+        key={colour.id}
+      />
+    ));
 
     return (
-      <div className="Palette">
+      <div className={classes.Palette}>
         <Navbar
           changeLevel={this.changeLevel}
           level={this.state.level}
           changeColourFormat={this.changeColourFormat}
         />
-        <div className="Palette-colours">{colourBoxes}</div>
+        <div className={classes.colours}>{colourBoxes}</div>
         <PaletteFooter
-          paletteName={this.props.palette.paletteName}
-          emoji={this.props.palette.emoji}
+          paletteName={palette.paletteName}
+          emoji={palette.emoji}
         />
       </div>
     );
   }
 }
+
+export default withStyles(styles)(Palette);
