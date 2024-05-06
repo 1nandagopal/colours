@@ -2,12 +2,14 @@ import { Component } from "react";
 import { Link } from "react-router-dom";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
+import { withStyles } from "@mui/styles";
 import { IconButton, MenuItem, Select, Snackbar } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
-import "./Navbar.css";
+import styles from "./styles/NavbarStyles";
+// import "./Navbar.css";
 
-export default class Navbar extends Component {
+class Navbar extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -26,28 +28,30 @@ export default class Navbar extends Component {
     this.setState({ open: false });
   }
   render() {
+    const { level, changeLevel, classes } = this.props;
+
     return (
-      <header className="Navbar">
-        <div className="logo">
+      <header className={classes.Navbar}>
+        <div className={classes.logo}>
           <Link to="/">reactcolorpicker</Link>
         </div>
 
-        {this.props.level && (
-          <div className="slider-container">
-            <span>Level: {this.props.level}</span>
-            <div className="slider">
+        {level && (
+          <div>
+            <span>Level: {level}</span>
+            <div className={classes.slider}>
               <Slider
-                defaultValue={this.props.level}
+                defaultValue={level}
                 min={100}
                 max={900}
                 step={100}
-                onChange={this.props.changeLevel}
+                onChange={changeLevel}
               />
             </div>
           </div>
         )}
 
-        <div className="select-container">
+        <div className={classes.selectContainer}>
           <Select
             value={this.state.colourFormat}
             onChange={this.handleFormatChange}
@@ -85,3 +89,5 @@ export default class Navbar extends Component {
     );
   }
 }
+
+export default withStyles(styles)(Navbar);
