@@ -15,7 +15,8 @@ import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import { ChromePicker } from "react-color";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
-import DraggableColourBox from "./DraggableColourBox";
+import { arrayMove } from "react-sortable-hoc";
+import DraggableColourList from "./DraggableColourList";
 
 const drawerWidth = 300;
 
@@ -94,6 +95,8 @@ class NewPaletteForm extends Component {
     this.addNewColour = this.addNewColour.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.removeColour = this.removeColour.bind(this);
+    this.onSortEnd = this.onSortEnd.bind(this);
   }
 
   componentDidMount() {
@@ -140,8 +143,7 @@ class NewPaletteForm extends Component {
     this.setState({ [evt.target.name]: evt.target.value });
   }
 
-  removeColor(colourName) {
-    console.log(this.state.colours, colourName);
+  removeColour(colourName) {
     this.setState({
       colours: this.state.colours.filter(
         (colour) => colour.name !== colourName
@@ -160,6 +162,12 @@ class NewPaletteForm extends Component {
 
     this.props.savePalette(newpalette);
     this.props.history.push("/");
+  }
+
+  onSortEnd({ oldIndex, newIndex }) {
+    this.setState(({ colours }) => ({
+      colours: arrayMove(colours, oldIndex, newIndex),
+    }));
   }
 
   render() {
@@ -262,13 +270,13 @@ class NewPaletteForm extends Component {
           })}
         >
           <div className={classes.drawerHeader} />
-          {this.state.colours.map((colour) => (
-            <DraggableColourBox
-              id={colour.name}
-              colour={colour}
-              handleClick={() => this.removeColor(colour.name)}
-            />
-          ))}
+
+          <DraggableColourList
+            colours={this.state.colours}
+            removeColour={this.removeColour}
+            axis="xy"
+            onSortEnd={this.onSortEnd}
+          />
         </main>
       </div>
     );
