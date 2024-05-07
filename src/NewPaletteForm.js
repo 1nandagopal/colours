@@ -14,6 +14,8 @@ import {
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import { ChromePicker } from "react-color";
+import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
+import DraggableColourBox from "./DraggableColourBox";
 
 const drawerWidth = 300;
 
@@ -58,6 +60,7 @@ const styles = (theme) => ({
   },
   content: {
     flexGrow: 1,
+    height: "calc(100vh - 64px)",
     padding: theme.spacing.unit * 3,
     transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.sharp,
@@ -77,11 +80,27 @@ const styles = (theme) => ({
 class NewPaletteForm extends Component {
   constructor(props) {
     super(props);
-    this.state = { open: false, colour: "teal" };
+    this.state = { open: false, colourName: "", colour: "teal", colours: [] };
 
     this.handleDrawerOpen = this.handleDrawerOpen.bind(this);
     this.handleDrawerClose = this.handleDrawerClose.bind(this);
     this.updateColour = this.updateColour.bind(this);
+    this.addNewColour = this.addNewColour.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  componentDidMount() {
+    ValidatorForm.addValidationRule("isColourNameUnique", (value) => {
+      return this.state.colours.every(
+        (colour) => colour.name.toLowerCase() !== value.toLowerCase()
+      );
+    });
+
+    ValidatorForm.addValidationRule("isColourUnique", (value) => {
+      return this.state.colours.every(
+        (colour) => colour.colour !== this.state.colour
+      );
+    });
   }
 
   handleDrawerOpen() {
@@ -95,6 +114,19 @@ class NewPaletteForm extends Component {
   updateColour(newColour) {
     this.setState({ colour: newColour.hex });
   }
+
+  addNewColour() {
+    const newColour = {
+      name: this.state.colourName,
+      colour: this.state.colour,
+    };
+    this.setState({ colours: [...this.state.colours, newColour] });
+  }
+
+  handleChange(evt) {
+    this.setState({ colourName: evt.target.value });
+  }
+
   render() {
     const { classes } = this.props;
     const { open } = this.state;
@@ -150,13 +182,26 @@ class NewPaletteForm extends Component {
             color={this.state.colour}
             onChangeComplete={this.updateColour}
           />
-          <Button
-            variant="contained"
-            color="primary"
-            style={{ backgroundColor: this.state.colour }}
-          >
-            Add Colour
-          </Button>
+          <ValidatorForm onSubmit={this.addNewColour}>
+            <TextValidator
+              value={this.state.colourName}
+              onChange={this.handleChange}
+              validators={["required", "isColourNameUnique", "isColourUnique"]}
+              errorMessages={[
+                "this field is required",
+                "Colour Name is not unique",
+                "Colour is not unique",
+              ]}
+            />
+            <Button
+              variant="contained"
+              color="primary"
+              type="submit"
+              style={{ backgroundColor: this.state.colour }}
+            >
+              Add Colour
+            </Button>
+          </ValidatorForm>
         </Drawer>
         <main
           className={classNames(classes.content, {
@@ -164,6 +209,9 @@ class NewPaletteForm extends Component {
           })}
         >
           <div className={classes.drawerHeader} />
+          {this.state.colours.map((colour) => (
+            <DraggableColourBox colour={colour} />
+          ))}
         </main>
       </div>
     );
