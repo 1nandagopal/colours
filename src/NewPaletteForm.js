@@ -9,11 +9,13 @@ import {
   Typography,
   Divider,
   IconButton,
+  Button,
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import { ChromePicker } from "react-color";
 
-const drawerWidth = 240;
+const drawerWidth = 300;
 
 const styles = (theme) => ({
   root: {
@@ -75,9 +77,11 @@ const styles = (theme) => ({
 class NewPaletteForm extends Component {
   constructor(props) {
     super(props);
-    this.state = { open: false };
+    this.state = { open: false, colour: "teal" };
+
     this.handleDrawerOpen = this.handleDrawerOpen.bind(this);
     this.handleDrawerClose = this.handleDrawerClose.bind(this);
+    this.updateColour = this.updateColour.bind(this);
   }
 
   handleDrawerOpen() {
@@ -86,6 +90,10 @@ class NewPaletteForm extends Component {
 
   handleDrawerClose() {
     this.setState({ open: false });
+  }
+
+  updateColour(newColour) {
+    this.setState({ colour: newColour.hex });
   }
   render() {
     const { classes } = this.props;
@@ -129,6 +137,26 @@ class NewPaletteForm extends Component {
             </IconButton>
           </div>
           <Divider />
+          <Typography variant="h4">Design your palette</Typography>
+          <div>
+            <Button variant="contained" color="secondary">
+              Clear Palette
+            </Button>
+            <Button variant="contained" color="primary">
+              Random Colour
+            </Button>
+          </div>
+          <ChromePicker
+            color={this.state.colour}
+            onChangeComplete={this.updateColour}
+          />
+          <Button
+            variant="contained"
+            color="primary"
+            style={{ backgroundColor: this.state.colour }}
+          >
+            Add Colour
+          </Button>
         </Drawer>
         <main
           className={classNames(classes.content, {
