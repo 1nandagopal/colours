@@ -79,13 +79,16 @@ const styles = (theme) => ({
 });
 
 class NewPaletteForm extends Component {
+  static defaultProps = {
+    maxNoOfColours: 20,
+  };
   constructor(props) {
     super(props);
     this.state = {
       open: false,
       newColourName: "",
       colour: "teal",
-      colours: [],
+      colours: this.props.palettes[0].colours,
       newPaletteName: "",
     };
 
@@ -96,6 +99,8 @@ class NewPaletteForm extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.removeColour = this.removeColour.bind(this);
+    this.clearColours = this.clearColours.bind(this);
+    this.addRandomColour = this.addRandomColour.bind(this);
     this.onSortEnd = this.onSortEnd.bind(this);
   }
 
@@ -164,6 +169,35 @@ class NewPaletteForm extends Component {
     this.props.history.push("/");
   }
 
+  clearColours() {
+    this.setState({ colours: [] });
+  }
+
+  addRandomColour() {
+    const allColours = this.props.palettes.flatMap(
+      (palette) => palette.colours
+    );
+
+    let randColour;
+
+    do {
+      randColour = allColours[Math.floor(Math.random() * allColours.length)];
+      console.log(
+        randColour,
+        this.state.colours.some((colour) => colour.colour === randColour.colour)
+      );
+    } while (
+      this.state.colours.some((colour) => colour.colour === randColour.colour)
+    );
+
+    this.setState({
+      colours: [
+        ...this.state.colours,
+        allColours[Math.floor(Math.random() * allColours.length)],
+      ],
+    });
+  }
+
   onSortEnd({ oldIndex, newIndex }) {
     this.setState(({ colours }) => ({
       colours: arrayMove(colours, oldIndex, newIndex),
@@ -171,9 +205,9 @@ class NewPaletteForm extends Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, maxNoOfColours } = this.props;
     const { newColourName, newPaletteName, open } = this.state;
-
+    const isPaletteFull = this.state.colours.length >= maxNoOfColours;
     return (
       <div className={classes.root}>
         <CssBaseline />
@@ -231,10 +265,19 @@ class NewPaletteForm extends Component {
           <Divider />
           <Typography variant="h4">Design your palette</Typography>
           <div>
-            <Button variant="contained" color="secondary">
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={this.clearColours}
+            >
               Clear Palette
             </Button>
-            <Button variant="contained" color="primary">
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={this.addRandomColour}
+              disabled={isPaletteFull}
+            >
               Random Colour
             </Button>
           </div>
@@ -258,9 +301,12 @@ class NewPaletteForm extends Component {
               variant="contained"
               color="primary"
               type="submit"
-              style={{ backgroundColor: this.state.colour }}
+              disabled={isPaletteFull}
+              style={{
+                backgroundColor: isPaletteFull ? "grey" : this.state.colour,
+              }}
             >
-              Add Colour
+              {isPaletteFull ? "Palette is Full" : "Add Colour"}
             </Button>
           </ValidatorForm>
         </Drawer>
