@@ -2,6 +2,24 @@ import { Component } from "react";
 import { Button } from "@material-ui/core";
 import { ChromePicker } from "react-color";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
+import { withStyles } from "@material-ui/core/styles";
+
+const styles = {
+  picker: {
+    width: "100% !important",
+    marginTop: "2rem",
+  },
+  addColour: {
+    width: "100%",
+    padding: "1rem",
+    marginTop: "1rem",
+    fontSize: "2rem",
+  },
+  colourNameInput: {
+    width: "100%",
+    height: "70px",
+  },
+};
 
 class ColourPickerForm extends Component {
   constructor(props) {
@@ -44,17 +62,19 @@ class ColourPickerForm extends Component {
   }
 
   render() {
-    const { isPaletteFull } = this.props;
+    const { isPaletteFull, classes } = this.props;
     return (
       <div>
         <ChromePicker
           color={this.state.currentColour}
           onChangeComplete={this.updateCurrentColour}
+          className={classes.picker}
         />
         <ValidatorForm onSubmit={this.handleSubmit}>
           <TextValidator
             value={this.state.currentColourName}
             name="currentColourName"
+            placeholder="Colour Name"
             onChange={this.handleChange}
             validators={["required", "isColourNameUnique", "isColourUnique"]}
             errorMessages={[
@@ -62,12 +82,16 @@ class ColourPickerForm extends Component {
               "Colour Name is not unique",
               "Colour is not unique",
             ]}
+            variant="filled"
+            margin="normal"
+            className={classes.colourNameInput}
           />
           <Button
             variant="contained"
             color="primary"
             type="submit"
             disabled={isPaletteFull}
+            className={classes.addColour}
             style={{
               backgroundColor: isPaletteFull
                 ? "grey"
@@ -82,4 +106,4 @@ class ColourPickerForm extends Component {
   }
 }
 
-export default ColourPickerForm;
+export default withStyles(styles)(ColourPickerForm);
