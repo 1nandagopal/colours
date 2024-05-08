@@ -12,16 +12,24 @@ import NewPaletteForm from "./NewPaletteForm";
 export default class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { palette: seedColours };
+    this.state = {
+      palettes: JSON.parse(localStorage.getItem("palettes")) || seedColours,
+    };
     this.findPalette = this.findPalette.bind(this);
     this.savePalette = this.savePalette.bind(this);
   }
   findPalette(id) {
-    return this.state.palette.find((palette) => palette.id === id);
+    return this.state.palettes.find((palette) => palette.id === id);
   }
 
   savePalette(newPalette) {
-    this.setState({ palette: [...this.state.palette, newPalette] });
+    this.setState(
+      { palettes: [...this.state.palettes, newPalette] },
+      this.syncLocalStorage
+    );
+  }
+  syncLocalStorage() {
+    localStorage.setItem("palettes", JSON.stringify(this.state.palettes));
   }
   render() {
     return (
@@ -30,7 +38,7 @@ export default class App extends Component {
           exact
           path="/"
           render={(routeProps) => (
-            <PaletteList palettes={this.state.palette} {...routeProps} />
+            <PaletteList palettes={this.state.palettes} {...routeProps} />
           )}
         />
 
@@ -39,7 +47,7 @@ export default class App extends Component {
           path="/palette/new"
           render={(routeProps) => (
             <NewPaletteForm
-              palettes={this.state.palette}
+              palettes={this.state.palettes}
               savePalette={this.savePalette}
               {...routeProps}
             />
@@ -71,9 +79,6 @@ export default class App extends Component {
           )}
         />
       </Switch>
-      // <div>
-      //   <Palette palette={generatePalette(seedColours[4])} />
-      // </div>
     );
   }
 }
