@@ -1,6 +1,7 @@
 import { Component } from "react";
-import DraggableColourBox from "./DraggableColourBox";
 import { SortableContainer } from "react-sortable-hoc";
+
+import DraggableColourBox from "./DraggableColourBox";
 
 class DraggableColourList extends Component {
   render() {

@@ -7,7 +7,6 @@ import {
   DialogContent,
   DialogContentText,
 } from "@material-ui/core";
-
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import Picker from "@emoji-mart/react";
 

@@ -2,24 +2,26 @@ import { Component } from "react";
 import classNames from "classnames";
 import {
   Drawer,
-  withStyles,
   Typography,
   Divider,
   IconButton,
   Button,
+  withStyles,
 } from "@material-ui/core";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import { arrayMove } from "react-sortable-hoc";
+
 import DraggableColourList from "./DraggableColourList";
 import PaletteFormNav from "./PaletteFormNav";
 import ColourPickerForm from "./ColourPickerForm";
-import styles from "./styles/newPaletteFormStyles";
 import seedColours from "./seedColours";
+import styles from "./styles/newPaletteFormStyles";
 
 class NewPaletteForm extends Component {
   static defaultProps = {
     maxNoOfColours: 20,
   };
+
   constructor(props) {
     super(props);
     this.state = {

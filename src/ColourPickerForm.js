@@ -1,13 +1,14 @@
 import { Component } from "react";
-import { Button } from "@material-ui/core";
+import { Button, withStyles } from "@material-ui/core";
 import { ChromePicker } from "react-color";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
-import { withStyles } from "@material-ui/core/styles";
+
 import styles from "./styles/colourPickerFormStyles";
 
 class ColourPickerForm extends Component {
   constructor(props) {
     super(props);
+
     this.state = { currentColour: "teal", currentColourName: "" };
     this.handleChange = this.handleChange.bind(this);
     this.updateCurrentColour = this.updateCurrentColour.bind(this);

@@ -1,15 +1,17 @@
 import { Component } from "react";
+import { Link } from "react-router-dom";
+import { withStyles } from "@material-ui/core";
+
 import ColourBox from "./ColourBox";
 import Navbar from "./Navbar";
 import PaletteFooter from "./PaletteFooter";
-import { Link } from "react-router-dom";
-import { withStyles } from "@mui/styles";
 import styles from "./styles/PaletteStyles";
 
 class SingleColourPalette extends Component {
   constructor(props) {
     super(props);
     this.state = { colourFormat: "hex" };
+
     this.changeColourFormat = this.changeColourFormat.bind(this);
     this.shades = this.gatherShades(this.props.palette, this.props.colourId);
   }

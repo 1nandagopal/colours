@@ -1,15 +1,15 @@
 import { Component } from "react";
-import ColourBox from "./ColourBox";
-import { withStyles } from "@mui/styles";
+import { withStyles } from "@material-ui/core";
 
+import ColourBox from "./ColourBox";
 import Navbar from "./Navbar";
 import PaletteFooter from "./PaletteFooter";
-
 import styles from "./styles/PaletteStyles";
 
 class Palette extends Component {
   constructor(props) {
     super(props);
+
     this.state = { level: 500, colourFormat: "hex" };
     this.changeLevel = this.changeLevel.bind(this);
     this.changeColourFormat = this.changeColourFormat.bind(this);

@@ -1,13 +1,17 @@
 import { Component } from "react";
 import { Link } from "react-router-dom";
 import Slider from "rc-slider";
-import "rc-slider/assets/index.css";
-import { withStyles } from "@mui/styles";
-import { IconButton, MenuItem, Select, Snackbar } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
+import {
+  IconButton,
+  MenuItem,
+  Select,
+  Snackbar,
+  withStyles,
+} from "@material-ui/core";
+import CloseIcon from "@material-ui/icons/Close";
 
+import "rc-slider/assets/index.css";
 import styles from "./styles/NavbarStyles";
-// import "./Navbar.css";
 
 class Navbar extends Component {
   constructor(props) {
@@ -19,6 +23,7 @@ class Navbar extends Component {
     this.handleFormatChange = this.handleFormatChange.bind(this);
     this.closeSnackBar = this.closeSnackBar.bind(this);
   }
+
   handleFormatChange(e) {
     this.setState({ colourFormat: e.target.value, open: true });
     this.props.changeColourFormat(e.target.value);
@@ -27,9 +32,9 @@ class Navbar extends Component {
   closeSnackBar() {
     this.setState({ open: false });
   }
+
   render() {
     const { level, changeLevel, classes } = this.props;
-
     return (
       <header className={classes.Navbar}>
         <div className={classes.logo}>

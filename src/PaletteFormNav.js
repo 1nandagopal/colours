@@ -7,10 +7,11 @@ import {
   Typography,
   IconButton,
   Button,
+  withStyles,
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import { Link } from "react-router-dom";
-import { withStyles } from "@material-ui/core/styles";
+
 import PaletteMetaForm from "./PaletteMetaForm";
 import styles from "./styles/paletteFormNavStyles";
 
@@ -20,6 +21,7 @@ class PaletteFormNav extends PureComponent {
     this.state = {
       paletteNameFormOpen: false,
     };
+
     this.showForm = this.showForm.bind(this);
     this.hideForm = this.hideForm.bind(this);
   }
@@ -37,7 +39,8 @@ class PaletteFormNav extends PureComponent {
   }
 
   render() {
-    const { classes, open, palettes } = this.props;
+    const { classes, open, palettes, handleDrawerOpen, handleSubmit } =
+      this.props;
     return (
       <div className={classes.root}>
         <CssBaseline />
@@ -52,7 +55,7 @@ class PaletteFormNav extends PureComponent {
             <IconButton
               color="inherit"
               aria-label="Open drawer"
-              onClick={this.props.handleDrawerOpen}
+              onClick={handleDrawerOpen}
               className={classNames(classes.menuButton, open && classes.hide)}
             >
               <MenuIcon />
@@ -84,7 +87,7 @@ class PaletteFormNav extends PureComponent {
         {this.state.paletteNameFormOpen && (
           <PaletteMetaForm
             palettes={palettes}
-            handleSubmit={this.props.handleSubmit}
+            handleSubmit={handleSubmit}
             handleClose={this.hideForm}
           />
         )}

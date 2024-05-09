@@ -1,13 +1,14 @@
 import { Component } from "react";
+import { withStyles } from "@material-ui/core";
+
 import styles from "./styles/PaletteFooterStyles";
-import { withStyles } from "@mui/styles";
 
 class PaletteFooter extends Component {
   render() {
-    const { classes } = this.props;
+    const { classes, paletteName } = this.props;
     return (
       <footer className={classes.PaletteFooter}>
-        {this.props.paletteName}
+        {paletteName}
         <span className={classes.emoji}>{this.props.emoji}</span>
       </footer>
     );

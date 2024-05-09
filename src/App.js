@@ -1,16 +1,15 @@
 import { Component } from "react";
 import { Route, Switch } from "react-router-dom";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
-
-import seedColours from "./seedColours";
-import { generatePalette } from "./colourHelpers";
+import { Redirect } from "react-router-dom";
 
 import Palette from "./Palette";
 import PaletteList from "./PaletteList";
 import SingleColourPalette from "./SingleColourPalette";
 import NewPaletteForm from "./NewPaletteForm";
 import Page from "./Page";
-import { Redirect } from "react-router-dom";
+import seedColours from "./seedColours";
+import { generatePalette } from "./colourHelpers";
 
 export default class App extends Component {
   constructor(props) {
@@ -18,6 +17,7 @@ export default class App extends Component {
     this.state = {
       palettes: JSON.parse(localStorage.getItem("palettes")) || seedColours,
     };
+
     this.findPalette = this.findPalette.bind(this);
     this.savePalette = this.savePalette.bind(this);
     this.deletePalette = this.deletePalette.bind(this);
@@ -45,6 +45,7 @@ export default class App extends Component {
   syncLocalStorage() {
     localStorage.setItem("palettes", JSON.stringify(this.state.palettes));
   }
+
   render() {
     return (
       <Route
