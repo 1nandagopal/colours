@@ -14,6 +14,7 @@ import DraggableColourList from "./DraggableColourList";
 import PaletteFormNav from "./PaletteFormNav";
 import ColourPickerForm from "./ColourPickerForm";
 import styles from "./styles/newPaletteFormStyles";
+import seedColours from "./seedColours";
 
 class NewPaletteForm extends Component {
   static defaultProps = {
@@ -23,7 +24,7 @@ class NewPaletteForm extends Component {
     super(props);
     this.state = {
       open: true,
-      colours: this.props.palettes[0].colours,
+      colours: seedColours[0].colours,
     };
 
     this.handleDrawerOpen = this.handleDrawerOpen.bind(this);
@@ -75,17 +76,13 @@ class NewPaletteForm extends Component {
       (palette) => palette.colours
     );
 
-    let randColour;
-
+    let randColour, isDuplicateColour;
     do {
       randColour = allColours[Math.floor(Math.random() * allColours.length)];
-      console.log(
-        randColour,
-        this.state.colours.some((colour) => colour.colour === randColour.colour)
+      isDuplicateColour = this.state.colours.some(
+        (colour) => colour.colour === randColour.colour
       );
-    } while (
-      this.state.colours.some((colour) => colour.colour === randColour.colour)
-    );
+    } while (isDuplicateColour);
 
     this.setState({
       colours: [
@@ -103,12 +100,12 @@ class NewPaletteForm extends Component {
 
   render() {
     const { classes, maxNoOfColours, palettes } = this.props;
-    const { open } = this.state;
     const isPaletteFull = this.state.colours.length >= maxNoOfColours;
+
     return (
       <div className={classes.root}>
         <PaletteFormNav
-          open={open}
+          open={this.state.open}
           palettes={palettes}
           handleSubmit={this.handleSubmit}
           handleDrawerOpen={this.handleDrawerOpen}
@@ -117,7 +114,7 @@ class NewPaletteForm extends Component {
           className={classes.drawer}
           variant="persistent"
           anchor="left"
-          open={open}
+          open={this.state.open}
           classes={{
             paper: classes.drawerPaper,
           }}
@@ -160,7 +157,7 @@ class NewPaletteForm extends Component {
         </Drawer>
         <main
           className={classNames(classes.content, {
-            [classes.contentShift]: open,
+            [classes.contentShift]: this.state.open,
           })}
         >
           <div className={classes.drawerHeader} />

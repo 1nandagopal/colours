@@ -1,4 +1,4 @@
-import { Component } from "react";
+import { PureComponent } from "react";
 import classNames from "classnames";
 import {
   CssBaseline,
@@ -14,7 +14,7 @@ import { withStyles } from "@material-ui/core/styles";
 import PaletteMetaForm from "./PaletteMetaForm";
 import styles from "./styles/paletteFormNavStyles";
 
-class PaletteFormNav extends Component {
+class PaletteFormNav extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
