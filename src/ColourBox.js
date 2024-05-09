@@ -13,7 +13,7 @@ class ColourBox extends Component {
   }
   changeCopyOverlayState() {
     this.setState({ copyOverlay: true }, () => {
-      setTimeout(() => this.setState({ copyOverlay: false }), 1500);
+      setTimeout(() => this.setState({ copyOverlay: false }), 1000);
     });
   }
 

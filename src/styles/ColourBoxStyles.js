@@ -10,7 +10,6 @@ export default {
     position: "relative",
     cursor: "pointer",
     marginBottom: "-3.5px",
-    overflow: "hidden",
     "&:hover button": {
       opacity: 1,
     },

@@ -1,4 +1,5 @@
 import sizes from "./sizes";
+import bg from "./bg.svg";
 
 export default {
   "@global": {
@@ -17,7 +18,9 @@ export default {
     alignItems: "flex-start",
     justifyContent: "center",
 
-    backgroundColor: "blue",
+    /* background by SVGBackgrounds.com */
+    backgroundImage: `url(${bg})`,
+    overflowY: "scroll",
   },
   heading: {
     fontSize: "2rem",
