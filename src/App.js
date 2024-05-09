@@ -10,6 +10,7 @@ import PaletteList from "./PaletteList";
 import SingleColourPalette from "./SingleColourPalette";
 import NewPaletteForm from "./NewPaletteForm";
 import Page from "./Page";
+import { Redirect } from "react-router-dom";
 
 export default class App extends Component {
   constructor(props) {
@@ -107,6 +108,8 @@ export default class App extends Component {
                     </Page>
                   )}
                 />
+
+                <Route render={() => <Redirect to="/" />} />
               </Switch>
             </CSSTransition>
           </TransitionGroup>
