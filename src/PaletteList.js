@@ -15,6 +15,7 @@ import {
 import CheckIcon from "@material-ui/icons/Check";
 import CloseIcon from "@material-ui/icons/Close";
 import { blue, red } from "@material-ui/core/colors";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 class PaletteList extends Component {
   constructor(props) {
@@ -55,17 +56,19 @@ class PaletteList extends Component {
             <h1 className={classes.heading}>React Colors</h1>
             <Link to="/palette/new">Create Palette</Link>
           </nav>
-          <div className={classes.palettes}>
+          <TransitionGroup className={classes.palettes}>
             {palettes.map((palette) => (
-              <MiniPalette
-                {...palette}
-                goToPalette={this.goToPalette}
-                openDialog={this.openDialog}
-                id={palette.id}
-                key={palette.id}
-              />
+              <CSSTransition key={palette.id} classNames="fade" timeout={500}>
+                <MiniPalette
+                  {...palette}
+                  goToPalette={this.goToPalette}
+                  openDialog={this.openDialog}
+                  id={palette.id}
+                  key={palette.id}
+                />
+              </CSSTransition>
             ))}
-          </div>
+          </TransitionGroup>
         </div>
 
         <Dialog
